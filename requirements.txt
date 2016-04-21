@@ -1,0 +1,6 @@
+argparse==1.2.1
+decorator==4.0.9
+elasticsearch==2.3.0
+networkx==1.11
+urllib3==1.15.1
+wsgiref==0.1.2
