@@ -25,6 +25,8 @@ def query(graph, es, color, DOC_TYPE_READ ="tor"):
         for hit in res['hits']['hits']:
             item = hit["_source"]
             onion = item["domain"]
+            if onion[-6:] != ".onion":
+                continue
             source_added = False
             for link in item["links"]:
                 link = link["link"].encode('ascii', 'ignore')
