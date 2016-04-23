@@ -32,7 +32,7 @@ def query(graph, es, color, DOC_TYPE_READ ="tor"):
                 link = link["link"].encode('ascii', 'ignore')
                 # If it is a link to onion domain
                 if link[0:7] == "http://" and link[23:30] == ".onion/":
-                    if not source_added:
+                    if not source_added and not onion in graph:
                         graph.add_node(onion)
                         graph.node[onion]['viz'] = {'color': color}
                         source_added = True
@@ -53,7 +53,7 @@ def use_data(es):
     graph = nx.Graph()
     # Public WWW is one node
     graph.add_node("PUBLIC_WWW")
-    graph.node["PUBLIC_WWW"]['viz'] = {'color': {'r': 240, 'g': 240, 'b': 240, 'a': 0.8}}
+    graph.node["PUBLIC_WWW"]['viz'] = {'color': {'r': 0, 'g': 240, 'b': 0, 'a': 0.8}}
 
     color = {'r': 102, 'g': 0, 'b': 255, 'a': 0.8} # redblue
     # Add onion site linking
