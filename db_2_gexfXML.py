@@ -30,12 +30,12 @@ def query(graph, es, color, DOC_TYPE_READ ="tor"):
             source_added = False
             for link in item["links"]:
                 link = link["link"].encode('ascii', 'ignore')
+                if not source_added and not onion in graph:
+                    graph.add_node(onion)
+                    graph.node[onion]['viz'] = {'color': color}
+                    source_added = True
                 # If it is a link to onion domain
                 if link[0:7] == "http://" and link[23:30] == ".onion/":
-                    if not source_added and not onion in graph:
-                        graph.add_node(onion)
-                        graph.node[onion]['viz'] = {'color': color}
-                        source_added = True
                     parsed_uri = urlparse(link)
                     domain = '{uri.scheme}://{uri.netloc}/'.format(uri=parsed_uri)
                     domain = domain[7:29]
@@ -55,7 +55,7 @@ def use_data(es):
     graph.add_node("PUBLIC_WWW")
     graph.node["PUBLIC_WWW"]['viz'] = {'color': {'r': 0, 'g': 240, 'b': 0, 'a': 0.8}}
 
-    color = {'r': 102, 'g': 0, 'b': 255, 'a': 0.8} # redblue
+    color = {'r': 200, 'g': 0, 'b': 255, 'a': 0.8} # redblue
     # Add onion site linking
     # A node is an onion domain
     query(graph, es, color)
