@@ -35,13 +35,11 @@ def query(graph, es, term, DOC_TYPE_READ ="tor"):
             onion_url = item["url"]
             if item["domain"][-6:] != ".onion":
                 continue
-            source_added = False
+            if not onion_url in graph:
+                graph.add_node(onion_url)
+            c = {'r': 240, 'g': 0, 'b': 0, 'a': 0.8} # red
+            graph.node[onion_url]['viz'] = {'color': c}
             for link in item["links"]:
-                if not source_added and not onion_url in graph:
-                    graph.add_node(onion_url)
-                    c = {'r': 240, 'g': 0, 'b': 0, 'a': 0.8} # red
-                    graph.node[onion_url]['viz'] = {'color': c}
-                    source_added = True
                 link = link["link"].encode('ascii', 'ignore')
                 # If it is a link to onion domain
                 if link[0:7] == "http://" and link[23:30] == ".onion/":
